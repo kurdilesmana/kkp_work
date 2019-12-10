@@ -3,9 +3,9 @@
 	<!-- Sidebar - Brand -->
 	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
 		<div class="sidebar-brand-icon rotate-n-15">
-			<i class="fas fa-laugh-wink"></i>
+			<i class="fas fa-briefcase"></i>
 		</div>
-		<div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+		<div class="sidebar-brand-text mx-2">WorkFLow <sup>MS</sup></div>
 	</a>
 
 	<!-- Divider -->
@@ -18,13 +18,34 @@
 			<span>Dashboard</span></a>
 	</li>
 
-	<!-- Divider -->
-	<hr class="sidebar-divider">
+	<!-- Query Header Menu -->
+	<?php $headerMenu = $this->db->get('user_header_menu')->result_array(); ?>
 
-	<!-- Heading -->
-	<div class="sidebar-heading">
-		Interface
-	</div>
+	<!-- Heading Menu -->
+	<?php foreach ($headerMenu as $Hm) { ?>
+		<div class="sidebar-heading">
+			<?= strtoupper($Hm['header_menu']) ?>
+		</div>
+
+		<!-- Query Menu -->
+		<?php
+			$headerID = $Hm['id'];
+			$roleID = $this->session->userdata('role_id');
+
+			$this->db->select('*');
+			$this->db->from('user_menu');
+			$this->db->join('user_access_menu', 'user_menu.id = user_access_menu.id');
+			$this->db->where('user_menu.header_id', $headerID);
+			$this->db->where('user_menu.is_active', 1);
+			$this->db->where('user_access_menu.role_id', $roleID);
+			$this->db->order_by('no_order', 'ASC');
+			$menu = $this->db->get()->result_array();
+
+
+			?>
+
+	<?php } ?>
+
 
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
