@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2019 at 03:31 PM
--- Server version: 10.1.39-MariaDB
--- PHP Version: 7.3.5
+-- Generation Time: Dec 11, 2019 at 03:48 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,6 +25,70 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `barang`
+--
+
+CREATE TABLE `barang` (
+  `id_barang` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `jenis` varchar(25) NOT NULL,
+  `serial_number` varchar(12) NOT NULL,
+  `kelengkapan_barang` varchar(60) NOT NULL,
+  `keluhan` varchar(255) NOT NULL,
+  `diagnosis_kerusakan` varchar(255) NOT NULL,
+  `sparepart` varchar(50) NOT NULL,
+  `penyelesaian` varchar(255) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `tgl_masuk` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
+  `tgl_keluar` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
+  `harga_sparepart` double NOT NULL,
+  `harga_service` double NOT NULL,
+  `total_harga` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id_customers` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `alamat` varchar(50) NOT NULL,
+  `phone` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `karyawan`
+--
+
+CREATE TABLE `karyawan` (
+  `id_karyawan` int(11) NOT NULL,
+  `nama_karyawan` varchar(50) NOT NULL,
+  `bagian_karyawan` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sparepart`
+--
+
+CREATE TABLE `sparepart` (
+  `id_sparepart` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `jenis` varchar(50) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `harga` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -36,7 +100,7 @@ CREATE TABLE `users` (
   `image` varchar(50) NOT NULL DEFAULT 'default.jpg',
   `role_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -111,11 +175,11 @@ CREATE TABLE `user_menu` (
   `header_id` int(11) NOT NULL,
   `no_order` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
-  `is_parent` int(1) DEFAULT '0',
+  `is_parent` int(1) DEFAULT 0,
   `parent_id` int(11) DEFAULT NULL,
   `url` varchar(100) NOT NULL,
   `icon` varchar(100) NOT NULL,
-  `is_active` int(1) NOT NULL DEFAULT '1'
+  `is_active` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -160,6 +224,30 @@ INSERT INTO `user_role` (`id`, `name`) VALUES
 --
 
 --
+-- Indexes for table `barang`
+--
+ALTER TABLE `barang`
+  ADD PRIMARY KEY (`id_barang`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id_customers`);
+
+--
+-- Indexes for table `karyawan`
+--
+ALTER TABLE `karyawan`
+  ADD PRIMARY KEY (`id_karyawan`);
+
+--
+-- Indexes for table `sparepart`
+--
+ALTER TABLE `sparepart`
+  ADD PRIMARY KEY (`id_sparepart`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -192,6 +280,30 @@ ALTER TABLE `user_role`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `barang`
+--
+ALTER TABLE `barang`
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id_customers` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `karyawan`
+--
+ALTER TABLE `karyawan`
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sparepart`
+--
+ALTER TABLE `sparepart`
+  MODIFY `id_sparepart` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
