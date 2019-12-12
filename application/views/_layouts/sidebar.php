@@ -49,30 +49,30 @@
 				$subMenu = $this->db->get()->result_array();
 
 				if ($subMenu) { ?>
-				<li class="nav-item <?php echo $this->uri->segment(1) == $m['url'] ? 'active' : '';  ?>">
-					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-						<i class="<?php echo $m['icon']; ?>"></i>
-						<span><?php echo $m['title']; ?></span>
+				<li class="nav-item <?= $this->uri->segment(1) == $m['url'] ? 'active' : '';  ?>">
+					<a class="nav-link <?= $this->uri->segment(1) == $m['url'] ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+						<i class="<?= $m['icon']; ?>"></i>
+						<span><?= $m['title']; ?></span>
 					</a>
-					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+					<div id="collapseTwo" class="collapse <?= $this->uri->segment(1) == $m['url'] ? 'show' : '';  ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
 							<?php foreach ($subMenu as $sm) { ?>
-								<a class="collapse-item <?php echo $title == $sm['title'] ? 'active' : '' ?>" href="<?php echo base_url($sm['url']); ?>"><?php echo $sm['title']; ?></a>
+								<a class="collapse-item <?= $title == $sm['title'] ? 'active' : '' ?>" href="<?= base_url($sm['url']); ?>"><?= $sm['title']; ?></a>
 							<?php } ?>
 						</div>
 					</div>
 				</li>
 			<?php } else { ?>
-				<li class="nav-item <?php echo $title == $m['title'] ? 'active' : '' ?>">
-					<a class="nav-link" href="<?php echo base_url($m['url']); ?>">
-						<i class="<?php echo $m['icon']; ?>"></i>
-						<span><?php echo $m['title']; ?></span></a>
+				<li class="nav-item <?= $title == $m['title'] ? 'active' : '' ?>">
+					<a class="nav-link" href="<?= base_url($m['url']); ?>">
+						<i class="<?= $m['icon']; ?>"></i>
+						<span><?= $m['title']; ?></span></a>
 				</li>
 		<?php }
 			} ?>
 
 		<!-- Divider -->
-		<hr class="sidebar-divider my2">
+		<hr class="sidebar-divider">
 
 	<?php } ?>
 
