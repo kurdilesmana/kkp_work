@@ -8,4 +8,6 @@ class KaryawanModel extends CI_Model
 		parent::__construct();
 	}
 
-	}
+}
+
+ 
