@@ -45,4 +45,47 @@ class Menu extends CI_Controller
 		header('Content-Type: application/json');
 		echo json_encode($callback);
 	}
+
+	private function _validation($mode)
+	{
+		$this->load->library('form_validation');
+		if ($mode == "save") {
+			$this->form_validation->set_rules('header_menu', 'Header Menu', 'trim|required');
+		}
+		if ($this->form_validation->run()) {
+			return true;
+		} else {
+			$data = array();
+			$data['inputerror'] = 'header_menu';
+			$data['error_string'] = form_error('header_menu');
+
+			echo json_encode($data);
+			exit();
+		}
+	}
+
+	public function addHeaderMenu()
+	{
+		$this->_validation("save");
+		$data = array(
+			'header_menu' => $this->input->post('header_menu', TRUE)
+		);
+
+		$doInsert = $this->MenuModel->entriDataHeader($data);
+
+		//Pengecekan input data
+		if ($doInsert == 'failed') {
+			$isErr = 1;
+			$Msg = 'Data tidak bisa ditambahkan!';
+		} else {
+			$isErr = 0;
+			$Msg = 'Data Berhasil Disimpan.';
+		}
+
+		$callback = array(
+			'status' => $isErr,
+			'pesan' => $Msg
+		);
+		echo json_encode($callback);
+	}
 }

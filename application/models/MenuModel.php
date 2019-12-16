@@ -26,4 +26,14 @@ class MenuModel extends CI_Model
 		$this->db->like('header_menu', $search);
 		return $this->db->get($this->_table)->num_rows();
 	}
+
+	public function entriDataHeader($data)
+	{
+		$check = $this->db->insert($this->_table, $data);
+		if (!$check) {
+			return 'failed';
+		} else {
+			return 'success';
+		}
+	}
 }

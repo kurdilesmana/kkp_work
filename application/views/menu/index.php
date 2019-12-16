@@ -19,6 +19,7 @@
 		</div>
 	</div>
 	<div class="card-body">
+		<div id="pesan-sukses" class="alert alert-success" role="alert"></div>
 		<div class="table-responsive">
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>
@@ -40,15 +41,16 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form action="<?= base_url('menu/addHeaderMenu') ?>" method="post">
+			<form>
 				<div class="modal-body">
 					<div class="form-group">
 						<input type="text" class="form-control form-control-user" id="header_menu" name="header_menu" placeholder="Header Menu" value="<?= set_value('header_menu') ?>">
+						<div class="invalid-feedback"></div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-					<button type="submit" class="btn btn-primary">Simpan</button>
+					<button type="button" id="btn-simpan" class="btn btn-primary">Simpan</button>
 				</div>
 			</form>
 		</div>
