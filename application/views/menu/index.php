@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div id="respon-message" class="alert" role="alert"></div>
+		<div id="response-message" class="alert" role="alert"></div>
 		<div class="table-responsive">
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>
@@ -43,17 +43,15 @@
 			</div>
 			<form id="form">
 				<div class="modal-body">
+					<input type="hidden" class="form-control" id="id" name="id">
 					<div class="form-group">
-						<input type="hidden" class="form-control form-control-user" id="id" name="id">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control form-control-user" id="header_menu" name="header_menu" placeholder="Header Menu" value="<?= set_value('header_menu') ?>">
+						<input type="text" class="form-control" id="header_menu" name="header_menu" placeholder="Header Menu" value="<?= set_value('header_menu') ?>">
 						<div class="invalid-feedback"></div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-					<button type="button" id="btn-submit" class="btn btn-primary">Simpan</button>
+					<button type="button" id="btn-submit" class="btn">Simpan</button>
 				</div>
 			</form>
 		</div>

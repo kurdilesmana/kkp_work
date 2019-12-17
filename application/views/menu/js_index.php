@@ -8,7 +8,7 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				'url': '<?= base_url('menu/headerMenu') ?>',
+				'url': '<?= base_url('menu/headerMenuList') ?>',
 				'type': 'POST'
 			},
 			columns: [{
@@ -22,24 +22,27 @@
 
 		function resetForm() {
 			$('#form')[0].reset();
+			$('.btn').removeClass('btn-danger');
 			$('.form-control').removeClass('is-invalid');
 			$('.invalid-feedback').empty();
+			$('#header_menu').removeAttr('readonly');
 		}
 
-		$('#pesan-sukses').hide();
+		$('#response-message').hide();
 
 		$('#btn-tambah').click(function() {
 			resetForm();
 			method = 'save';
 			$('#formModal').modal('show');
 			$('#formModalLabel').text("Tambah Data " + "<?= $title; ?>");
+			$('#btn-submit').addClass('btn-primary');
+			$('#btn-submit').text('Simpan');
 		});
 
 		$('#btn-edit').click(function() {
 			try {
 				resetForm();
 				method = 'update';
-				console.log(method);
 				var id = table.row('.selected').data()['id'];
 
 				$.ajax({
@@ -47,11 +50,12 @@
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
-
 						$('[name="id"]').val(data.id);
 						$('[name="header_menu"]').val(data.header_menu);
 						$('#formModal').modal('show');
 						$('#formModalLabel').text("Edit Data " + "<?= $title; ?>");
+						$('#btn-submit').addClass('btn-primary');
+						$('#btn-submit').text('Ubah');
 
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
@@ -59,8 +63,8 @@
 					}
 				});
 			} catch (err) {
-				$('#respon-message').addClass('alert-danger')
-				$('#respon-message').html('Data Belum Dipilih!').fadeIn().delay(3000).fadeOut()
+				$('#response-message').addClass('alert-danger')
+				$('#response-message').html('Data Belum Dipilih!').fadeIn().delay(3000).fadeOut()
 			}
 		});
 
@@ -87,8 +91,8 @@
 					}
 				});
 			} catch (err) {
-				$('#respon-message').addClass('alert-danger')
-				$('#respon-message').html('Data Belum Dipilih!').fadeIn().delay(3000).fadeOut()
+				$('#response-message').addClass('alert-danger')
+				$('#response-message').html('Data Belum Dipilih!').fadeIn().delay(3000).fadeOut()
 			}
 		});
 
@@ -114,8 +118,8 @@
 				},
 				success: function(response) {
 					if (response.status == 0) {
-						$('#respon-message').addClass('alert-success')
-						$('#respon-message').html(response.pesan).fadeIn().delay(3000).fadeOut()
+						$('#response-message').addClass('alert-success')
+						$('#response-message').html(response.pesan).fadeIn().delay(3000).fadeOut()
 						$('#formModal').modal('hide')
 						reloadTable()
 					} else {
