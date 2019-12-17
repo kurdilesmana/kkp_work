@@ -17,7 +17,7 @@ class Menu extends CI_Controller
 	public function index()
 	{
 		$tdata['title'] = 'Header Menu';
-		$tdata['caption'] = 'Pengelolaan Header Menu!';
+		$tdata['caption'] = 'Pengelolaan Header Menu';
 
 		## LOAD LAYOUT ##	
 		$ldata['content'] = $this->load->view($this->router->class . '/index', $tdata, true);
@@ -64,6 +64,12 @@ class Menu extends CI_Controller
 		}
 	}
 
+	public function getHeaderMenu($id)
+	{
+		$data = $this->MenuModel->getHeaderById($id);
+		echo json_encode($data);
+	}
+
 	public function addHeaderMenu()
 	{
 		$this->_validation("save");
@@ -80,6 +86,53 @@ class Menu extends CI_Controller
 		} else {
 			$isErr = 0;
 			$Msg = 'Data Berhasil Disimpan.';
+		}
+
+		$callback = array(
+			'status' => $isErr,
+			'pesan' => $Msg
+		);
+		echo json_encode($callback);
+	}
+
+	public function updateHeaderMenu()
+	{
+		$this->_validation("save");
+		$data = array(
+			'id' => $this->input->post('id', TRUE),
+			'header_menu' => $this->input->post('header_menu', TRUE)
+		);
+
+		$doUpdate = $this->MenuModel->updateDataHeader($data);
+
+		//Pengecekan edit data
+		if ($doUpdate == 'failed') {
+			$isErr = 1;
+			$Msg = 'Data tidak bisa ditambahkan!';
+		} else {
+			$isErr = 0;
+			$Msg = 'Data Berhasil Diubah.';
+		}
+
+		$callback = array(
+			'status' => $isErr,
+			'pesan' => $Msg
+		);
+		echo json_encode($callback);
+	}
+
+	public function deleteHeaderMenu()
+	{
+		$id = $this->input->post('id', TRUE);
+		$doDelete = $this->MenuModel->deleteDataHeader($id);
+
+		//Pengecekan edit data
+		if ($doDelete == 'failed') {
+			$isErr = 1;
+			$Msg = 'Data tidak bisa ditambahkan!';
+		} else {
+			$isErr = 0;
+			$Msg = 'Data Berhasil Dihapus.';
 		}
 
 		$callback = array(
