@@ -13,3 +13,5 @@
 <!-- Custom styles for this template-->
 <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
 <link href="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="<?= base_url('assets/'); ?>vendor/datatables/select.bootstrap4.min.css" rel="stylesheet">
+<link href="<?= base_url('assets/'); ?>vendor/select2/dist/css/select2.min.css" rel="stylesheet">

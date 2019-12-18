@@ -175,7 +175,6 @@ CREATE TABLE `user_menu` (
   `header_id` int(11) NOT NULL,
   `no_order` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
-  `is_parent` int(1) DEFAULT 0,
   `parent_id` int(11) DEFAULT NULL,
   `url` varchar(100) NOT NULL,
   `icon` varchar(100) NOT NULL,
@@ -194,11 +193,7 @@ INSERT INTO `user_menu` (`id`, `header_id`, `no_order`, `title`, `is_parent`, `p
 (5, 1, 90, 'Menu Management', 1, NULL, 'menu', 'fa fa-folder-open', 1),
 (6, 1, 91, 'Header Menu', 0, 5, 'menu', 'fa fa-folder', 1),
 (7, 1, 92, 'Menu', 0, 5, 'menu/submenu', 'fa fa-folder', 1),
-(8, 1, 93, 'Access Menu', 0, 5, 'menu/accessmenu', 'fa fa-folder', 1),
-(9, 1, 2, 'Brands', 0, NULL, 'brands', 'fa fa-bookmark', 1),
-(10, 1, 3, 'Area', 0, NULL, 'area', 'fa fa-circle', 1),
-(11, 1, 4, 'Sales', 0, NULL, 'sales', 'fa fa-tags', 1),
-(12, 1, 5, 'Report', 0, NULL, 'report', 'fa fa-book', 1);
+(8, 1, 93, 'Access Menu', 0, 5, 'menu/accessmenu', 'fa fa-folder', 1);
 
 -- --------------------------------------------------------
 

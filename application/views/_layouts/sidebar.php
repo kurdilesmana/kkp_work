@@ -68,12 +68,18 @@
 						<i class="<?= $m['icon']; ?>"></i>
 						<span><?= $m['title']; ?></span></a>
 				</li>
-		<?php }
-			} ?>
+			<?php } ?>
+		<?php	} ?>
 
 		<!-- Divider -->
 		<hr class="sidebar-divider">
 
+
 	<?php } ?>
+
+	<!-- Sidebar Toggler (Sidebar) -->
+	<div class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</div>
 
 </ul>

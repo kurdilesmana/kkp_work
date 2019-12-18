@@ -11,14 +11,15 @@
 				Action
 			</a>
 			<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-				<a class="dropdown-item font-weight-bold" href="#" data-toggle="modal" data-target="#AddModal">Add <i class="fa fa-btn fa-plus"></i></a>
-				<a class="dropdown-item font-weight-bold" href="#" id="">Edit <i class="fa fa-btn fa-edit"></i></a>
+				<a class="dropdown-item font-weight-bold" href="#" id="btn-tambah">Add <i class="fa fa-btn fa-plus"></i></a>
+				<a class="dropdown-item font-weight-bold" href="#" id="btn-edit">Edit <i class="fa fa-btn fa-edit"></i></a>
 				<div class="dropdown-divider"></div>
-				<a class="dropdown-item text-danger" href="#">Delete <i class="fa fa-btn fa-trash"></i></a>
+				<a class="dropdown-item text-danger" href="#" id="btn-hapus">Delete <i class="fa fa-btn fa-trash"></i></a>
 			</div>
 		</div>
 	</div>
 	<div class="card-body">
+		<div id="response-message" class="alert" role="alert"></div>
 		<div class="table-responsive">
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>
@@ -31,24 +32,26 @@
 	</div>
 </div>
 
-<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="AddModalLabel" aria-hidden="true">
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="AddModalLabel">Tambah Data <?= $title ?></h5>
+				<h5 class="modal-title" id="formModalLabel"></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form action="<?= base_url('menu/addHeaderMenu') ?>" method="post">
+			<form id="form">
 				<div class="modal-body">
+					<input type="hidden" class="form-control" id="id" name="id">
 					<div class="form-group">
-						<input type="text" class="form-control form-control-user" id="header_menu" name="header_menu" placeholder="Header Menu" value="<?= set_value('header_menu') ?>">
+						<input type="text" class="form-control" id="header_menu" name="header_menu" placeholder="Header Menu" value="<?= set_value('header_menu') ?>">
+						<div class="invalid-feedback"></div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-					<button type="submit" class="btn btn-primary">Simpan</button>
+					<button type="button" id="btn-submit" class="btn">Simpan</button>
 				</div>
 			</form>
 		</div>
