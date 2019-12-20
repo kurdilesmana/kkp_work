@@ -164,6 +164,17 @@ class Menu extends CI_Controller
 		$this->load->view('base', $ldata);
 	}
 
+	public function searchMenu()
+	{
+		$json = [];
+		if (!empty($this->input->get("q"))) {
+			$this->db->like('title', $this->input->get("q"));
+			$query = $this->db->select('id, title as text')->limit(10)->get("user_menu");
+			$json = $query->result();
+		}
+		echo json_encode($json);
+	}
+
 	public function subMenuList()
 	{
 		$search = $_POST['search']['value'];
@@ -237,6 +248,93 @@ class Menu extends CI_Controller
 		);
 
 		$doInsert = $this->MenuModel->entriDataMenu($data);
+
+		//Pengecekan input data
+		if ($doInsert == 'failed') {
+			$isErr = 1;
+			$Msg = 'Data gagal ditambahkan!';
+		} else {
+			$isErr = 0;
+			$Msg = 'Data Berhasil Disimpan.';
+		}
+
+		$callback = array(
+			'status' => $isErr,
+			'pesan' => $Msg
+		);
+		echo json_encode($callback);
+	}
+
+	public function accessMenu()
+	{
+		$tdata['title'] = "Access Menu";
+		$tdata['caption'] = "Pengelolaan Access Menu";
+
+		## LOAD LAYOUT ##	
+		$ldata['content'] = $this->load->view($this->router->class . '/accessmenu', $tdata, true);
+		$ldata['script'] = $this->load->view($this->router->class . '/js_accessmenu', $tdata, true);
+		$this->load->view('base', $ldata);
+	}
+
+	public function accessMenuList()
+	{
+		$search = $_POST['search']['value'];
+		$limit = $_POST['length'];
+		$start = $_POST['start'];
+		$order_index = $_POST['order'][0]['column'];
+		$order_field = $_POST['columns'][$order_index]['data'];
+		$order_ascdesc = $_POST['order'][0]['dir'];
+		$sql_total = $this->MenuModel->count_all_access();
+		$sql_data = $this->MenuModel->filter_access($search, $limit, $start, $order_field, $order_ascdesc);
+		$sql_filter = $this->MenuModel->count_filter_access($search);
+		$callback = array(
+			'draw' => $_POST['draw'],
+			'recordsTotal' => $sql_total,
+			'recordsFiltered' => $sql_filter,
+			'data' => $sql_data
+		);
+		header('Content-Type: application/json');
+		echo json_encode($callback);
+	}
+
+	private function _validationAccess($mode)
+	{
+		if ($mode == "save") {
+			$this->form_validation->set_rules('menu_id', 'Menu', 'required');
+			$this->form_validation->set_rules('role_id', 'Role', 'required');
+		}
+		if ($this->form_validation->run()) {
+			return true;
+		} else {
+			$data = array();
+			$data['inputerror'] = array();
+			$data['error_string'] = array();
+
+			$fields = array('menu_id', 'role_id');
+			for ($i = 0; $i < count($fields); $i++) {
+				if (form_error($fields[$i])) {
+					$data['inputerror'][$i] = $fields[$i];
+					$data['error_string'][$i] = form_error($fields[$i]);
+				} else {
+					$data['inputerror'][$i] = "";
+					$data['error_string'][$i] = "";
+				}
+			}
+
+			echo json_encode($data);
+			exit();
+		}
+	}
+
+	public function addAccessMenu()
+	{
+		$this->_validationAccess("save");
+		$data = array(
+			'menu_id' => $this->input->post('menu_id', TRUE),
+			'role_id' => $this->input->post('role_id', TRUE)
+		);
+
+		$doInsert = $this->MenuModel->entriDataAccess($data);
 
 		//Pengecekan input data
 		if ($doInsert == 'failed') {

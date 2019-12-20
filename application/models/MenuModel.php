@@ -3,6 +3,7 @@ class MenuModel extends CI_Model
 {
 	private $_table = "user_header_menu";
 	private $_tableMenu = "user_menu";
+	private $_tableAccess = "user_access_menu";
 
 	public function __construct()
 	{
@@ -101,6 +102,47 @@ class MenuModel extends CI_Model
 	public function entriDataMenu($data)
 	{
 		$check = $this->db->insert($this->_tableMenu, $data);
+
+		if (!$check) {
+			return 'failed';
+		} else {
+			return 'success';
+		}
+	}
+
+	// Access
+	public function count_all_access()
+	{
+		return $this->db->count_all($this->_tableAccess);
+	}
+
+	public function filter_access($search, $limit, $start, $order_field, $order_ascdesc)
+	{
+		$this->db->like('menu_id', $search);
+		$this->db->order_by($order_field, $order_ascdesc);
+		$this->db->limit($limit, $start);
+		$this->db->select(
+			'a.*, m.title as menu, r.name as role'
+		);
+		$this->db->from($this->_tableAccess . ' a');
+		$this->db->join('user_menu m', 'm.id=a.menu_id', 'inner');
+		$this->db->join('user_role r', 'r.id=a.role_id', 'inner');
+		return $this->db->get()->result_array();
+	}
+
+	public function count_filter_access($search)
+	{
+		$this->db->like('menu_id', $search);
+		return $this->db->get($this->_tableAccess)->num_rows();
+	}
+	public function getAccessMenuById($id)
+	{
+		return $this->db->get_where($this->_tableAccess, ["id" => $id])->row();
+	}
+
+	public function entriDataAccess($data)
+	{
+		$check = $this->db->insert($this->_tableAccess, $data);
 
 		if (!$check) {
 			return 'failed';
