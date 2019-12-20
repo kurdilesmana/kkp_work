@@ -5,14 +5,18 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				'url': '<?= base_url('karyawan/karyawan') ?>',
+				'url': '<?= base_url('sparepart/sparepart') ?>',
 				'type': 'POST'
 			},
 			columns: [{
-				data: 'nama_karyawan'
+				data: 'nama'
 			}, {
-				data: 'bagian_karyawan'
-			}]
+				data: 'jenis'
+			}, {
+                data: 'stock'
+            }, {
+                data: 'harga'
+            }]
 		});
 
 		function reloadTable() {
@@ -24,7 +28,7 @@
 			$('.btn').removeClass('btn-danger');
 			$('.form-control').removeClass('is-invalid');
 			$('.invalid-feedback').empty();
-			$('#nama_karyawan').removeAttr('readonly');
+			$('#nama').removeAttr('readonly');
 		}
 
 		$('#response-message').hide();
@@ -42,16 +46,18 @@
 			try {
 				resetForm();
 				method = 'update';
-				var id = table.row('.selected').data()['id_karyawan'];
+				var id = table.row('.selected').data()['id_sparepart'];
 
 				$.ajax({
-					url: "<?= base_url('karyawan/getKaryawan') ?>/" + id,
+					url: "<?= base_url('sparepart/getSparepart') ?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
-						$('[name="id_karyawan"]').val(data.id_karyawan);
-						$('[name="nama_karyawan"]').val(data.nama_karyawan);
-						$('[name="bagian_karyawan"]').val(data.bagian_karyawan);
+						$('[name="id_sparepart"]').val(data.id_sparepart);
+						$('[name="nama"]').val(data.nama);
+						$('[name="jenis"]').val(data.jenis);
+                        $('[name="stock"]').val(data.stock);
+                        $('[name="harga"]').val(data.harga);
 
 						$('#formModal').modal('show');
 						$('#formModalLabel').text("Edit Data " + "<?= $title; ?>");
@@ -72,18 +78,22 @@
 		$('#btn-hapus').click(function() {
 			try {
 				method = 'delete';
-				var id = table.row('.selected').data()['id_karyawan'];
+				var id = table.row('.selected').data()['id_sparepart'];
 				$.ajax({
-					url: "<?= base_url('karyawan/getkaryawan') ?>/" + id,
+					url: "<?= base_url('sparepart/getSparepart') ?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
-						$('[name="id_karyawan"]').val(data.id_karyawan);
-						$('[name="nama_karyawan"]').val(data.nama_karyawan);
-						$('[name="bagian_karyawan"]').val(data.bagian_karyawan);
+						$('[name="id_sparepart"]').val(data.id_sparepart);
+						$('[name="nama"]').val(data.nama);
+						$('[name="jenis"]').val(data.jenis);
+                        $('[name="stock"]').val(data.stock);
+                        $('[name="harga"]').val(data.harga);
 						
-						$('[name="nama_karyawan"]').attr('readonly', true);
-						$('[name="bagian_karyawan"]').attr('readonly', true);
+						$('[name="nama"]').attr('readonly', true);
+						$('[name="jenis"]').attr('readonly', true);
+                        $('[name="stock"]').attr('readonly', true);
+                        $('[name="harga"]').attr('readonly', true);
 
 						$('#formModal').modal('show');
 						$('#formModalLabel').text("Hapus Data " + "<?= $title; ?>");
@@ -103,11 +113,11 @@
 		$('#btn-submit').click(function() {
 			var url;
 			if (method == 'save') {
-				url = '<?= base_url('karyawan/addKaryawan'); ?>'
+				url = '<?= base_url('sparepart/addSparepart'); ?>'
 			} else if (method == 'update') {
-				url = '<?= base_url('karyawan/updateKaryawan'); ?>'
+				url = '<?= base_url('sparepart/updateSparepart'); ?>'
 			} else {
-				url = '<?= base_url('karyawan/deleteKaryawan'); ?>'
+				url = '<?= base_url('sparepart/deleteSparepart'); ?>'
 			}
 
 			$('.form-control').removeClass('is-invalid');
