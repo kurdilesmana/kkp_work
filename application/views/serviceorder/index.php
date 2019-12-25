@@ -26,8 +26,11 @@
 					<tr>
 						<th>Nama</th>
 						<th>Jenis</th>
-						<th>Stock</th>
-						<th>Harga</th>
+						<th>Spesifikasi</th>
+						<th>Serial Number</th>
+						<th>Kelengkapan Barang</th>
+						<th>Keluhan</th>
+						<th>Tanggal Masuk</th>
 					</tr>
 				</thead>
 			</table>
@@ -46,7 +49,7 @@
 			</div>
 			<form id="form">
 				<div class="modal-body">
-					<input type="hidden" class="form-control" id="id_sparepart" name="id_sparepart">
+					<input type="hidden" class="form-control" id="id_barang" name="id_barang">
 					<div class="form-group">
 						<input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?= set_value('nama') ?>">
 						<div class="invalid-feedback" name="nama-message"></div>
@@ -55,14 +58,26 @@
 						<input type="text" class="form-control" id="jenis" name="jenis" placeholder="Jenis" value="<?= set_value('jenis') ?>">
 						<div class="invalid-feedback" name="jenis-message"></div>
 					</div>
-                    <div class="form-group">
-						<input type="text" class="form-control" id="stock" name="stock" placeholder="Stock" value="<?= set_value('stock') ?>">
-						<div class="invalid-feedback" name="stock-message"></div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="spesifikasi" name="spesifikasi" placeholder="Spesifikasi" value="<?= set_value('spesifikasi') ?>">
+						<div class="invalid-feedback" name="spesifikasi-message"></div>
 					</div>
                     <div class="form-group">
-						<input type="number" class="form-control" id="harga" name="harga" placeholder="Harga" value="<?= set_value('harga') ?>">
-						<div class="invalid-feedback" name="harga-message"></div>
-					</div>
+						<input type="text" class="form-control" id="serial_number" name="serial_number" placeholder="Serial Number" value="<?= set_value('serial_number') ?>">
+						<div class="invalid-feedback" name="serial_number-message"></div>
+                    </div>
+                    <div class="form-group">
+						<input type="text" class="form-control" id="kelengkapan_barang" name="kelengkapan_barang" placeholder="Kelengkapan Barang" value="<?= set_value('kelengkapan_barang') ?>">
+						<div class="invalid-feedback" name="kelengkapan_barang-message"></div>
+                    </div>
+                    <div class="form-group">
+						<input type="text" class="form-control" id="keluhan" name="keluhan" placeholder="Keluhan" value="<?= set_value('keluhan') ?>">
+						<div class="invalid-feedback" name="keluhan-message"></div>
+                    </div>
+                    <div class="form-group">
+						<input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" placeholder="Tanggal Masuk" value="<?= set_value('tgl_masuk') ?>">
+						<div class="invalid-feedback" name="tgl_masuk-message"></div>
+                    </div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
