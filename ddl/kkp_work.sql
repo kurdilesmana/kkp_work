@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2019 at 04:09 PM
+-- Generation Time: Dec 26, 2019 at 03:14 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -90,6 +90,102 @@ INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `bagian_karyawan`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `service_check`
+--
+
+CREATE TABLE `service_check` (
+  `id_check` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_sparepart` int(11) NOT NULL,
+  `diagnosis_kerusakan` varchar(255) NOT NULL,
+  `id_karyawan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_delivery`
+--
+
+CREATE TABLE `service_delivery` (
+  `id_delivery` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `no_faktur` int(11) NOT NULL,
+  `tgl_keluar` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_finishing`
+--
+
+CREATE TABLE `service_finishing` (
+  `id_finishing` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_sparepart` int(11) NOT NULL,
+  `penyelesaian` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_item`
+--
+
+CREATE TABLE `service_item` (
+  `id_item` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_sparepart` int(11) NOT NULL,
+  `id_penawaran` int(11) NOT NULL,
+  `keterangan` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_order`
+--
+
+CREATE TABLE `service_order` (
+  `id_barang` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `jenis` varchar(25) NOT NULL,
+  `spesifikasi` varchar(255) NOT NULL,
+  `serial_number` varchar(12) NOT NULL,
+  `kelengkapan_barang` varchar(60) NOT NULL,
+  `keluhan` varchar(255) NOT NULL,
+  `tgl_masuk` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `service_order`
+--
+
+INSERT INTO `service_order` (`id_barang`, `nama`, `jenis`, `spesifikasi`, `serial_number`, `kelengkapan_barang`, `keluhan`, `tgl_masuk`) VALUES
+(3, 'ASTON BRAGA', 'PRINTER epson', 'L110', '6785', 'Kabel USB, Kabel Power', 'Tinta warna tidak keluar', '2019-12-31 17:00:00'),
+(4, 'GRAND TEXTILE INDONESIA', 'PC', 'full set', '5643', 'no', 'Mati total', '2019-12-24 17:00:00'),
+(5, 'PT. KALDU SARI NABATI', 'LAPTOP ASUS', 'I7', '4356', 'Charger', 'keyboard Rusak', '2019-12-23 17:00:00'),
+(7, 'ss', 's', 's', '333', 'f', 'f', '2019-12-17 17:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_penawaran`
+--
+
+CREATE TABLE `service_penawaran` (
+  `id_penawaran` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_sparepart` int(11) NOT NULL,
+  `no_penawaran` int(11) NOT NULL,
+  `harga_service` double NOT NULL,
+  `total_harga` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sparepart`
 --
 
@@ -106,8 +202,7 @@ CREATE TABLE `sparepart` (
 --
 
 INSERT INTO `sparepart` (`id_sparepart`, `nama`, `jenis`, `stock`, `harga`) VALUES
-(2, 'LCD', 'ASUS X401', 1, 550000),
-(3, 'motherboard', 'gigabyte h110m-ds2', 1, 650000);
+(3, 'motherboard', 'gigabyte h110m-ds2', 3, 650000);
 
 -- --------------------------------------------------------
 
@@ -164,7 +259,8 @@ INSERT INTO `user_access_menu` (`id`, `menu_id`, `role_id`) VALUES
 (11, 8, 1),
 (13, 9, 1),
 (18, 14, 1),
-(19, 15, 1);
+(19, 15, 1),
+(20, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +314,8 @@ INSERT INTO `user_menu` (`id`, `header_id`, `no_order`, `title`, `is_parent`, `p
 (8, 1, 93, 'Access Menu', 0, 5, 'menu/accessmenu', 'fas fa-fw fa-folder', 1),
 (9, 1, 2, 'Karyawan', 0, NULL, 'karyawan', 'fas fa-fw fa-user-friends', 1),
 (14, 1, 3, 'Customers', 0, NULL, 'customers', 'fas fa-fw fa-user-tag', 1),
-(15, 1, 4, 'Sparepart', 0, NULL, 'sparepart', 'fas fa-fw fa-tools', 1);
+(15, 1, 4, 'Sparepart', 0, NULL, 'sparepart', 'fas fa-fw fa-tools', 1),
+(16, 1, 2, 'Service Order', 0, NULL, 'serviceorder', 'fas fa-fw fa-laptop', 1);
 
 -- --------------------------------------------------------
 
@@ -260,6 +357,53 @@ ALTER TABLE `customers`
 --
 ALTER TABLE `karyawan`
   ADD PRIMARY KEY (`id_karyawan`);
+
+--
+-- Indexes for table `service_check`
+--
+ALTER TABLE `service_check`
+  ADD PRIMARY KEY (`id_check`),
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_karyawan` (`id_karyawan`),
+  ADD KEY `id_sparepart` (`id_sparepart`);
+
+--
+-- Indexes for table `service_delivery`
+--
+ALTER TABLE `service_delivery`
+  ADD PRIMARY KEY (`id_delivery`),
+  ADD KEY `id_barang` (`id_barang`);
+
+--
+-- Indexes for table `service_finishing`
+--
+ALTER TABLE `service_finishing`
+  ADD PRIMARY KEY (`id_finishing`),
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_sparepart` (`id_sparepart`);
+
+--
+-- Indexes for table `service_item`
+--
+ALTER TABLE `service_item`
+  ADD PRIMARY KEY (`id_item`),
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_penawaran` (`id_penawaran`),
+  ADD KEY `id_sparepart` (`id_sparepart`);
+
+--
+-- Indexes for table `service_order`
+--
+ALTER TABLE `service_order`
+  ADD PRIMARY KEY (`id_barang`);
+
+--
+-- Indexes for table `service_penawaran`
+--
+ALTER TABLE `service_penawaran`
+  ADD PRIMARY KEY (`id_penawaran`),
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_sparepart` (`id_sparepart`);
 
 --
 -- Indexes for table `sparepart`
@@ -320,6 +464,42 @@ ALTER TABLE `karyawan`
   MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT for table `service_check`
+--
+ALTER TABLE `service_check`
+  MODIFY `id_check` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `service_delivery`
+--
+ALTER TABLE `service_delivery`
+  MODIFY `id_delivery` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `service_finishing`
+--
+ALTER TABLE `service_finishing`
+  MODIFY `id_finishing` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `service_item`
+--
+ALTER TABLE `service_item`
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `service_order`
+--
+ALTER TABLE `service_order`
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `service_penawaran`
+--
+ALTER TABLE `service_penawaran`
+  MODIFY `id_penawaran` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `sparepart`
 --
 ALTER TABLE `sparepart`
@@ -335,25 +515,65 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `user_header_menu`
 --
 ALTER TABLE `user_header_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `service_check`
+--
+ALTER TABLE `service_check`
+  ADD CONSTRAINT `service_check_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
+  ADD CONSTRAINT `service_check_ibfk_2` FOREIGN KEY (`id_karyawan`) REFERENCES `karyawan` (`id_karyawan`),
+  ADD CONSTRAINT `service_check_ibfk_3` FOREIGN KEY (`id_sparepart`) REFERENCES `sparepart` (`id_sparepart`);
+
+--
+-- Constraints for table `service_delivery`
+--
+ALTER TABLE `service_delivery`
+  ADD CONSTRAINT `service_delivery_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`);
+
+--
+-- Constraints for table `service_finishing`
+--
+ALTER TABLE `service_finishing`
+  ADD CONSTRAINT `service_finishing_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
+  ADD CONSTRAINT `service_finishing_ibfk_2` FOREIGN KEY (`id_sparepart`) REFERENCES `sparepart` (`id_sparepart`);
+
+--
+-- Constraints for table `service_item`
+--
+ALTER TABLE `service_item`
+  ADD CONSTRAINT `service_item_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
+  ADD CONSTRAINT `service_item_ibfk_2` FOREIGN KEY (`id_penawaran`) REFERENCES `service_penawaran` (`id_penawaran`),
+  ADD CONSTRAINT `service_item_ibfk_3` FOREIGN KEY (`id_sparepart`) REFERENCES `sparepart` (`id_sparepart`);
+
+--
+-- Constraints for table `service_penawaran`
+--
+ALTER TABLE `service_penawaran`
+  ADD CONSTRAINT `service_penawaran_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
+  ADD CONSTRAINT `service_penawaran_ibfk_2` FOREIGN KEY (`id_sparepart`) REFERENCES `sparepart` (`id_sparepart`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
