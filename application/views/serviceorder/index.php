@@ -24,13 +24,13 @@
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>
 					<tr>
+						<th>Tanggal Masuk</th>
 						<th>Nama</th>
 						<th>Jenis</th>
 						<th>Spesifikasi</th>
 						<th>Serial Number</th>
 						<th>Kelengkapan Barang</th>
 						<th>Keluhan</th>
-						<th>Tanggal Masuk</th>
 					</tr>
 				</thead>
 			</table>
@@ -75,7 +75,7 @@
 						<div class="invalid-feedback" name="keluhan-message"></div>
                     </div>
                     <div class="form-group">
-						<input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" placeholder="Tanggal Masuk" value="<?= set_value('tgl_masuk') ?>">
+						<input type="date" class="form-control datepicker" id="tgl_masuk" name="tgl_masuk" placeholder="Tanggal Masuk" value="<?= set_value('tgl_masuk') ?>">
 						<div class="invalid-feedback" name="tgl_masuk-message"></div>
                     </div>
 				</div>

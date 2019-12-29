@@ -37,6 +37,10 @@
 			$('#nama').removeAttr('readonly');
 		}
 
+		$('.datepicker').datepicker({
+			startDate: '-3d'
+		});
+
 		$('#response-message').hide();
 
 		$('#btn-tambah').click(function() {
@@ -66,6 +70,9 @@
                         $('[name="serial_number"]').val(data.serial_number);
                         $('[name="kelengkapan_barang"]').val(data.kelengkapan_barang);
 						$('[name="keluhan"]').val(data.keluhan);
+
+						tgl_masuk = new Date(data.tgl_masuk);
+						console.log(tgl_masuk);
 						$('[name="tgl_masuk"]').val(data.tgl_masuk);
 
 						$('#formModal').modal('show');
