@@ -133,15 +133,22 @@ class Serviceorder extends CI_Controller
 	public function updateServiceorder()
 	{
 		$this->_validationServiceorder("save");
+
+		$tgl_masuk = $this->input->post('tgl_masuk', TRUE);
+		$date = str_replace('/', '-', $tgl_masuk);
+		$newDate = date("Y-m-d", strtotime($date));
+		
 		$data = array(
 			'id_barang' => $this->input->post('id_barang', TRUE),
-			'nama' => $this->input->post('nama', TRUE),
+			'customer_id' => $this->input->post('customer_id', TRUE),
 			'jenis' => $this->input->post('jenis', TRUE),
 			'spesifikasi' => $this->input->post('spesifikasi', TRUE),
 			'serial_number' => $this->input->post('serial_number', TRUE),
 			'kelengkapan_barang' => $this->input->post('kelengkapan_barang', TRUE),
 			'keluhan' => $this->input->post('keluhan', TRUE),
-			'tgl_masuk' => $this->input->post('tgl_masuk', TRUE)
+			'tgl_masuk' => $newDate,
+			'karyawan_id' => $this->input->post('karyawan_id', TRUE)
+			
 		);
 
 		$doUpdate = $this->ServiceorderModel->updateServiceorder($data);

@@ -112,9 +112,45 @@
 									<input type="hidden" class="form-control" name="id_barang">
 									<div class="input-group input-group-sm mb-3">
 										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Tanggal Masuk</span>
+										</div>
+										<input type="text" class="form-control" name="tgl_masuk">
+									</div>
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroup-sizing-sm">Customer</span>
 										</div>
 										<input type="text" class="form-control" name="customer">
+									</div>
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Jenis</span>
+										</div>
+										<input type="text" class="form-control" name="jenis">
+									</div>
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Spesifikasi</span>
+										</div>
+										<input type="text" class="form-control" name="spesifikasi">
+									</div>
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Serial Number</span>
+										</div>
+										<input type="text" class="form-control" name="serial_number">
+									</div>
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Kelengkapan Barang</span>
+										</div>
+										<textarea class="form-control" name="kelengkapan_barang" rows="3"></textarea>
+									</div>
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Keluhan</span>
+										</div>
+										<textarea class="form-control" name="keluhan" rows="3"></textarea>
 									</div>
 									<!-- tambahkan disini -->
 								</div>

@@ -73,7 +73,7 @@ class ServiceorderModel extends CI_Model
 	{
 		$id = $data['id_barang'];
 		$_data = array(
-			'nama' => $data['nama'],
+			'customer_id' => $data['customer_id'],
 			'jenis' => $data['jenis'],
 			'spesifikasi' => $data['spesifikasi'],
 			'serial_number' => $data['serial_number'],
