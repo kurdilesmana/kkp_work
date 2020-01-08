@@ -14,6 +14,8 @@
 				<a class="dropdown-item font-weight-bold" href="#" id="btn-tambah">Add <i class="fa fa-btn fa-plus"></i></a>
 				<a class="dropdown-item font-weight-bold" href="#" id="btn-edit">Edit <i class="fa fa-btn fa-edit"></i></a>
 				<div class="dropdown-divider"></div>
+				<a class="dropdown-item font-weight-bold" href="#" id="btn-check">Check <i class="fa fa-btn fa-edit"></i></a>
+				<div class="dropdown-divider"></div>
 				<a class="dropdown-item text-danger" href="#" id="btn-hapus">Delete <i class="fa fa-btn fa-trash"></i></a>
 			</div>
 		</div>
@@ -25,12 +27,11 @@
 				<thead>
 					<tr>
 						<th>Tanggal Masuk</th>
-						<th>Nama</th>
+						<th>Customer</th>
 						<th>Jenis</th>
 						<th>Spesifikasi</th>
 						<th>Serial Number</th>
-						<th>Kelengkapan Barang</th>
-						<th>Keluhan</th>
+						<th>Teknisi</th>
 					</tr>
 				</thead>
 			</table>
@@ -51,8 +52,12 @@
 				<div class="modal-body">
 					<input type="hidden" class="form-control" id="id_barang" name="id_barang">
 					<div class="form-group">
-						<input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?= set_value('nama') ?>">
-						<div class="invalid-feedback" name="nama-message"></div>
+						<select class="form-control select2-hidden-accessible col-sm" id="customer_id" name="customer_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required></select>
+						<div class="invalid-feedback" name="customer_id-message"></div>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="tgl_masuk" name="tgl_masuk" placeholder="Tanggal Masuk" value="<?= set_value('tgl_masuk') ?>">
+						<div class="invalid-feedback" name="tgl_masuk-message"></div>
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" id="jenis" name="jenis" placeholder="Jenis" value="<?= set_value('jenis') ?>">
@@ -62,26 +67,75 @@
 						<input type="text" class="form-control" id="spesifikasi" name="spesifikasi" placeholder="Spesifikasi" value="<?= set_value('spesifikasi') ?>">
 						<div class="invalid-feedback" name="spesifikasi-message"></div>
 					</div>
-                    <div class="form-group">
+					<div class="form-group">
 						<input type="text" class="form-control" id="serial_number" name="serial_number" placeholder="Serial Number" value="<?= set_value('serial_number') ?>">
 						<div class="invalid-feedback" name="serial_number-message"></div>
-                    </div>
-                    <div class="form-group">
+					</div>
+					<div class="form-group">
 						<input type="text" class="form-control" id="kelengkapan_barang" name="kelengkapan_barang" placeholder="Kelengkapan Barang" value="<?= set_value('kelengkapan_barang') ?>">
 						<div class="invalid-feedback" name="kelengkapan_barang-message"></div>
-                    </div>
-                    <div class="form-group">
+					</div>
+					<div class="form-group">
 						<input type="text" class="form-control" id="keluhan" name="keluhan" placeholder="Keluhan" value="<?= set_value('keluhan') ?>">
 						<div class="invalid-feedback" name="keluhan-message"></div>
-                    </div>
-                    <div class="form-group">
-						<input type="date" class="form-control datepicker" id="tgl_masuk" name="tgl_masuk" placeholder="Tanggal Masuk" value="<?= set_value('tgl_masuk') ?>">
-						<div class="invalid-feedback" name="tgl_masuk-message"></div>
-                    </div>
+					</div>
+					<div class="form-group">
+						<select class="form-control select2-hidden-accessible col-sm" id="karyawan_id" name="karyawan_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required></select>
+						<div class="invalid-feedback" name="karyawan_id-message"></div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
 					<button type="button" id="btn-submit" class="btn">Simpan</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="formCheckModal" tabindex="-1" role="dialog" aria-labelledby="formCheckModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="formCheckModalLabel"></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form id="formCheck">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="card">
+								<h6 class="card-header">Service Order</h6>
+								<div class="card-body">
+									<input type="hidden" class="form-control" name="id_barang">
+									<div class="input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="inputGroup-sizing-sm">Customer</span>
+										</div>
+										<input type="text" class="form-control" name="customer">
+									</div>
+									<!-- tambahkan disini -->
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="card">
+								<h6 class="card-header">Service Check</h6>
+								<div class="card-body">
+									<div class="form-group">
+										<input type="text" class="form-control" id="diagnosis_kerusakan" name="diagnosis_kerusakan" placeholder="Diagnosis Kerusakan">
+										<div class="invalid-feedback" name="diagnosis_kerusakan-message"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+					<button type="button" class="btn btn-submit">Simpan</button>
 				</div>
 			</form>
 		</div>

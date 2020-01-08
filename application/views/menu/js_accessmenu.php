@@ -24,6 +24,8 @@
 
 		function resetForm() {
 			$('#form')[0].reset();
+			$('#menu_id').val(null).trigger('change');
+			$('#role_id').val(null).trigger('change');
 			$('.btn').removeClass('btn-danger');
 			$('.form-control').removeClass('is-invalid');
 			$('.invalid-feedback').empty();
@@ -56,7 +58,7 @@
 			placeholder: 'Pilih Role',
 			ajax: {
 				dataType: 'json',
-				url: '<?php echo base_url('user/searchRole'); ?>',
+				url: '<?php echo base_url('users/searchRole'); ?>',
 				delay: 250,
 				data: function(params) {
 					return {
@@ -87,15 +89,46 @@
 				var id = table.row('.selected').data()['id'];
 
 				$.ajax({
-					url: "<?= base_url('menu/getSubMenu') ?>/" + id,
+					url: "<?= base_url('menu/getAccessMenu') ?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
 						$('[name="id"]').val(data.id);
-						$('[name="title"]').val(data.title);
-						$('[name="url"]').val(data.url);
-						$('[name="icon"]').val(data.icon);
-						$('[name="no_order"]').val(data.no_order);
+						$.ajax({
+							type: 'GET',
+							url: "<?= base_url('menu/getSubMenu') ?>/" + data.menu_id,
+							dataType: "JSON"
+						}).then(function(data) {
+							// create the option and append to Select2
+							var option = new Option(data.title, data.id, true, true);
+							$('#menu_id').append(option).trigger('change');
+
+							// manually trigger the `select2:select` event
+							$('#menu_id').trigger({
+								type: 'select2:select',
+								params: {
+									data: data
+								}
+							});
+						});
+
+						$.ajax({
+							type: 'GET',
+							url: "<?= base_url('users/getRole') ?>/" + data.role_id,
+							dataType: "JSON"
+						}).then(function(data) {
+							// create the option and append to Select2
+							var option = new Option(data.name, data.id, true, true);
+							$('#role_id').append(option).trigger('change');
+
+							// manually trigger the `select2:select` event
+							$('#role_id').trigger({
+								type: 'select2:select',
+								params: {
+									data: data
+								}
+							});
+						});
 
 						$('#formModal').modal('show');
 						$('#formModalLabel').text("Edit Data " + "<?= $title; ?>");
@@ -117,19 +150,54 @@
 			try {
 				method = 'delete';
 				var id = table.row('.selected').data()['id'];
+
 				$.ajax({
-					url: "<?= base_url('menu/getHeaderMenu') ?>/" + id,
+					url: "<?= base_url('menu/getAccessMenu') ?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
 						$('[name="id"]').val(data.id);
-						$('[name="header_menu"]').val(data.header_menu);
-						$('[name="header_menu"]').attr('readonly', true);
+						$.ajax({
+							type: 'GET',
+							url: "<?= base_url('menu/getSubMenu') ?>/" + data.menu_id,
+							dataType: "JSON"
+						}).then(function(data) {
+							// create the option and append to Select2
+							var option = new Option(data.title, data.id, true, true);
+							$('#menu_id').append(option).trigger('change');
+
+							// manually trigger the `select2:select` event
+							$('#menu_id').trigger({
+								type: 'select2:select',
+								params: {
+									data: data
+								}
+							});
+						});
+
+						$.ajax({
+							type: 'GET',
+							url: "<?= base_url('users/getRole') ?>/" + data.role_id,
+							dataType: "JSON"
+						}).then(function(data) {
+							// create the option and append to Select2
+							var option = new Option(data.name, data.id, true, true);
+							$('#role_id').append(option).trigger('change');
+
+							// manually trigger the `select2:select` event
+							$('#role_id').trigger({
+								type: 'select2:select',
+								params: {
+									data: data
+								}
+							});
+						});
 
 						$('#formModal').modal('show');
-						$('#formModalLabel').text("Hapus Data " + "<?= $title; ?>");
-						$('#btn-submit').addClass('btn-danger');
-						$('#btn-submit').text('Hapus!');
+						$('#formModalLabel').text("Edit Data " + "<?= $title; ?>");
+						$('#btn-submit').addClass('btn-primary');
+						$('#btn-submit').text('Ubah');
+
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
 						alert('Error get data from ajax');
@@ -146,7 +214,7 @@
 			if (method == 'save') {
 				url = '<?= base_url('menu/addAccessMenu'); ?>'
 			} else if (method == 'update') {
-				url = '<?= base_url('menu/updateSubMenu'); ?>'
+				url = '<?= base_url('menu/updateAccessMenu'); ?>'
 			} else {
 				url = '<?= base_url('menu/deleteSubMenu'); ?>'
 			}
@@ -166,6 +234,7 @@
 				},
 				success: function(response) {
 					if (response.status == 0) {
+						$('#response-message').removeClass('alert-danger')
 						$('#response-message').addClass('alert-success')
 						$('#response-message').html(response.pesan).fadeIn().delay(3000).fadeOut()
 						$('#formModal').modal('hide')

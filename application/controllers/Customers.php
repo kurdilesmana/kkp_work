@@ -72,12 +72,20 @@ class Customers extends CI_Controller
 					$data['error_string'][$i] = "";
 				}
 			}
-			
+
 			echo json_encode($data);
 			exit();
 		}
 	}
 
+	public function searchCustomer()
+	{
+		$json = [];
+		$this->db->like('nama', $this->input->get("q"));
+		$query = $this->db->select('id_customers as id, nama as text')->limit(5)->get("customers");
+		$json = $query->result();
+		echo json_encode($json);
+	}
 
 	public function addCustomers()
 	{
@@ -106,7 +114,7 @@ class Customers extends CI_Controller
 		echo json_encode($callback);
 	}
 
-	
+
 	public function getCustomers($id)
 	{
 		$data = $this->CustomersModel->getCustomers($id);
@@ -163,6 +171,3 @@ class Customers extends CI_Controller
 		echo json_encode($callback);
 	}
 }
-
-
-

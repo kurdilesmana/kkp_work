@@ -14,3 +14,4 @@
 <script src="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/datatables/dataTables.select.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/select2/dist/js/select2.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>

@@ -94,6 +94,7 @@ class MenuModel extends CI_Model
 		$this->db->like('title', $search);
 		return $this->db->get($this->_tableMenu)->num_rows();
 	}
+
 	public function getSubMenuById($id)
 	{
 		return $this->db->get_where($this->_tableMenu, ["id" => $id])->row();
@@ -103,6 +104,40 @@ class MenuModel extends CI_Model
 	{
 		$check = $this->db->insert($this->_tableMenu, $data);
 
+		if (!$check) {
+			return 'failed';
+		} else {
+			return 'success';
+		}
+	}
+
+	public function updateDataMenu($data)
+	{
+		$id = $data['id'];
+		$_data = array(
+			'header_id' => $data['header_id'],
+			'title' => $data['title'],
+			'url' => $data['url'],
+			'icon' => $data['icon'],
+			'no_order' => $data['no_order'],
+			'parent_id' => $data['parent_id'],
+			'is_active' => $data['is_active']
+		);
+
+		$check = $this->db->update($this->_tableMenu, $_data, ['id' => $id]);
+
+		if (!$check) {
+			return 'failed';
+		} else {
+			return 'success';
+		}
+	}
+
+	public function deleteDataMenu($id)
+	{
+		var_dump($id);
+		die();
+		$check = $this->db->delete($this->_tableMenu, ['id' => $id]);
 		if (!$check) {
 			return 'failed';
 		} else {

@@ -40,9 +40,20 @@
 
 		function resetForm() {
 			$('#form')[0].reset();
+			$('#header_id').val(null).trigger('change');
+			$('#parent_id').val(null).trigger('change');
 			$('.btn').removeClass('btn-danger');
 			$('.form-control').removeClass('is-invalid');
 			$('.invalid-feedback').empty();
+		};
+
+		function enableForm() {
+			$("#form :input").prop("readonly", false);
+		};
+
+		function disableForm() {
+			$("#form :input").prop("readonly", true);
+			$("#form :select").prop("readonly", true);
 		};
 
 		$('#response-message').hide();
@@ -102,6 +113,7 @@
 
 		$('#btn-tambah').click(function() {
 			resetForm();
+			enableForm();
 			method = 'save';
 			$('#formModal').modal('show');
 			$('#formModalLabel').text("Tambah Data " + "<?= $title; ?>");
@@ -112,6 +124,7 @@
 		$('#btn-edit').click(function() {
 			try {
 				resetForm();
+				enableForm();
 				method = 'update';
 				var id = table.row('.selected').data()['id'];
 
@@ -126,11 +139,29 @@
 						$('[name="icon"]').val(data.icon);
 						$('[name="no_order"]').val(data.no_order);
 
+						// set select2
+						$.ajax({
+							type: 'GET',
+							url: "<?= base_url('menu/getHeaderMenu') ?>/" + data.header_id,
+							dataType: "JSON"
+						}).then(function(data) {
+							// create the option and append to Select2
+							var option = new Option(data.header_menu, data.id, true, true);
+							$('#header_id').append(option).trigger('change');
+
+							// manually trigger the `select2:select` event
+							$('#header_id').trigger({
+								type: 'select2:select',
+								params: {
+									data: data
+								}
+							});
+						});
+
 						$('#formModal').modal('show');
 						$('#formModalLabel').text("Edit Data " + "<?= $title; ?>");
 						$('#btn-submit').addClass('btn-primary');
 						$('#btn-submit').text('Ubah');
-
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
 						alert('Error get data from ajax');
@@ -147,14 +178,31 @@
 				method = 'delete';
 				var id = table.row('.selected').data()['id'];
 				$.ajax({
-					url: "<?= base_url('menu/getHeaderMenu') ?>/" + id,
+					url: "<?= base_url('menu/getSubMenu') ?>/" + id,
 					type: "GET",
 					dataType: "JSON",
 					success: function(data) {
 						$('[name="id"]').val(data.id);
-						$('[name="header_menu"]').val(data.header_menu);
-						$('[name="header_menu"]').attr('readonly', true);
+						$('[name="title"]').val(data.title);
+						$('[name="url"]').val(data.url);
+						$('[name="icon"]').val(data.icon);
+						$('[name="no_order"]').val(data.no_order);
+						$.ajax({
+							type: 'GET',
+							url: "<?= base_url('menu/getHeaderMenu') ?>/" + data.header_id,
+							dataType: "JSON"
+						}).then(function(data) {
+							var option = new Option(data.header_menu, data.id, true, true);
+							$('#header_id').append(option).trigger('change');
+							$('#header_id').trigger({
+								type: 'select2:select',
+								params: {
+									data: data
+								}
+							});
+						});
 
+						disableForm();
 						$('#formModal').modal('show');
 						$('#formModalLabel').text("Hapus Data " + "<?= $title; ?>");
 						$('#btn-submit').addClass('btn-danger');
@@ -195,6 +243,7 @@
 				},
 				success: function(response) {
 					if (response.status == 0) {
+						$('#response-message').removeClass('alert-danger');
 						$('#response-message').addClass('alert-success')
 						$('#response-message').html(response.pesan).fadeIn().delay(3000).fadeOut()
 						$('#formModal').modal('hide')

@@ -118,6 +118,7 @@
 				},
 				success: function(response) {
 					if (response.status == 0) {
+						$('#response-message').removeClass('alert-danger')
 						$('#response-message').addClass('alert-success')
 						$('#response-message').html(response.pesan).fadeIn().delay(3000).fadeOut()
 						$('#formModal').modal('hide')

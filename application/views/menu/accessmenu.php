@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div id="response-message" class="alert" role="alert"></div>
+		<div id="response-message" class="alert alert-danger" role="alert"></div>
 		<div class="table-responsive">
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				<thead>

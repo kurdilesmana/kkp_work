@@ -48,6 +48,16 @@ class Karyawan extends CI_Controller
 		echo json_encode($callback);
 	}
 
+	public function searchKaryawan()
+	{
+		$json = [];
+		$this->db->like('nama_karyawan', $this->input->get("q"));
+		$this->db->where('lower(bagian_karyawan)', 'teknisi');
+		$query = $this->db->select('id_karyawan as id, nama_karyawan as text')->limit(5)->get("karyawan");
+		$json = $query->result();
+		echo json_encode($json);
+	}
+
 	private function _validationKaryawan($mode)
 	{
 		if ($mode == "save") {
@@ -71,7 +81,7 @@ class Karyawan extends CI_Controller
 					$data['error_string'][$i] = "";
 				}
 			}
-			
+
 			echo json_encode($data);
 			exit();
 		}
@@ -104,7 +114,7 @@ class Karyawan extends CI_Controller
 		echo json_encode($callback);
 	}
 
-	
+
 	public function getKaryawan($id)
 	{
 		$data = $this->KaryawanModel->getKaryawan($id);
@@ -160,6 +170,3 @@ class Karyawan extends CI_Controller
 		echo json_encode($callback);
 	}
 }
-
-
-

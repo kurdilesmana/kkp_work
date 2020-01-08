@@ -51,13 +51,14 @@ class Serviceorder extends CI_Controller
 	private function _validationServiceorder($mode)
 	{
 		if ($mode == "save") {
-			$this->form_validation->set_rules('nama', 'Nama', 'required');
-            $this->form_validation->set_rules('jenis', 'Jenis', 'required');
-            $this->form_validation->set_rules('spesifikasi', 'Spesifikasi', 'required');
-            $this->form_validation->set_rules('serial_number', 'Serial Number', 'required');
-            $this->form_validation->set_rules('kelengkapan_barang', 'Kelengkapan Barang', 'required');
-            $this->form_validation->set_rules('keluhan', 'Keluhan', 'required');
-            $this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required');
+			$this->form_validation->set_rules('customer_id', 'Customer', 'required');
+			$this->form_validation->set_rules('jenis', 'Jenis', 'required');
+			$this->form_validation->set_rules('spesifikasi', 'Spesifikasi', 'required');
+			$this->form_validation->set_rules('serial_number', 'Serial Number', 'required');
+			$this->form_validation->set_rules('kelengkapan_barang', 'Kelengkapan Barang', 'required');
+			$this->form_validation->set_rules('keluhan', 'Keluhan', 'required');
+			$this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required');
+			$this->form_validation->set_rules('karyawan_id', 'Karyawan', 'required');
 		}
 		if ($this->form_validation->run()) {
 			return true;
@@ -66,7 +67,7 @@ class Serviceorder extends CI_Controller
 			$data['inputerror'] = array();
 			$data['error_string'] = array();
 
-			$fields = array('nama', 'jenis', 'spesifikasi', 'serial_number', 'kelengkapan_barang', 'keluhan', 'tgl_masuk');
+			$fields = array('customer_id', 'jenis', 'spesifikasi', 'serial_number', 'kelengkapan_barang', 'keluhan', 'tgl_masuk', 'karyawan_id');
 			for ($i = 0; $i < count($fields); $i++) {
 				if (form_error($fields[$i])) {
 					$data['inputerror'][$i] = $fields[$i];
@@ -76,7 +77,7 @@ class Serviceorder extends CI_Controller
 					$data['error_string'][$i] = "";
 				}
 			}
-			
+
 			echo json_encode($data);
 			exit();
 		}
@@ -86,14 +87,20 @@ class Serviceorder extends CI_Controller
 	public function addServiceorder()
 	{
 		$this->_validationServiceorder("save");
+
+		$tgl_masuk = $this->input->post('tgl_masuk', TRUE);
+		$date = str_replace('/', '-', $tgl_masuk);
+		$newDate = date("Y-m-d", strtotime($date));
+
 		$data = array(
-			'nama' => $this->input->post('nama', TRUE),
-            'jenis' => $this->input->post('jenis', TRUE),
-            'spesifikasi' => $this->input->post('spesifikasi', TRUE),
-            'serial_number' => $this->input->post('serial_number', TRUE),
-            'kelengkapan_barang' => $this->input->post('kelengkapan_barang', TRUE),
-            'keluhan' => $this->input->post('keluhan', TRUE),
-            'tgl_masuk' => $this->input->post('tgl_masuk', TRUE)
+			'customer_id' => $this->input->post('customer_id', TRUE),
+			'jenis' => $this->input->post('jenis', TRUE),
+			'spesifikasi' => $this->input->post('spesifikasi', TRUE),
+			'serial_number' => $this->input->post('serial_number', TRUE),
+			'kelengkapan_barang' => $this->input->post('kelengkapan_barang', TRUE),
+			'keluhan' => $this->input->post('keluhan', TRUE),
+			'tgl_masuk' => $newDate,
+			'karyawan_id' => $this->input->post('karyawan_id', TRUE)
 		);
 
 		$doInsert = $this->ServiceorderModel->entriDataServiceorder($data);
@@ -114,13 +121,14 @@ class Serviceorder extends CI_Controller
 		echo json_encode($callback);
 	}
 
-	
+
 	public function getServiceorder($id)
 	{
 		$data = $this->ServiceorderModel->getServiceorder($id);
+		$newDate = date('d/m/Y', strtotime($data->tgl_masuk));
+		$data->tgl_masuk = $newDate;
 		echo json_encode($data);
 	}
-
 
 	public function updateServiceorder()
 	{
@@ -128,12 +136,12 @@ class Serviceorder extends CI_Controller
 		$data = array(
 			'id_barang' => $this->input->post('id_barang', TRUE),
 			'nama' => $this->input->post('nama', TRUE),
-            'jenis' => $this->input->post('jenis', TRUE),
-            'spesifikasi' => $this->input->post('spesifikasi', TRUE),
-            'serial_number' => $this->input->post('serial_number', TRUE),
-            'kelengkapan_barang' => $this->input->post('kelengkapan_barang', TRUE),
-            'keluhan' => $this->input->post('keluhan', TRUE),
-            'tgl_masuk' => $this->input->post('tgl_masuk', TRUE)
+			'jenis' => $this->input->post('jenis', TRUE),
+			'spesifikasi' => $this->input->post('spesifikasi', TRUE),
+			'serial_number' => $this->input->post('serial_number', TRUE),
+			'kelengkapan_barang' => $this->input->post('kelengkapan_barang', TRUE),
+			'keluhan' => $this->input->post('keluhan', TRUE),
+			'tgl_masuk' => $this->input->post('tgl_masuk', TRUE)
 		);
 
 		$doUpdate = $this->ServiceorderModel->updateServiceorder($data);
@@ -175,6 +183,3 @@ class Serviceorder extends CI_Controller
 		echo json_encode($callback);
 	}
 }
-
-
-

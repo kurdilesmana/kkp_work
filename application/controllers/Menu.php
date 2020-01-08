@@ -205,6 +205,7 @@ class Menu extends CI_Controller
 			$this->form_validation->set_rules('icon', 'Icon', 'required');
 			$this->form_validation->set_rules('no_order', 'Nomor Order', 'required');
 		}
+
 		if ($this->form_validation->run()) {
 			return true;
 		} else {
@@ -265,6 +266,62 @@ class Menu extends CI_Controller
 		echo json_encode($callback);
 	}
 
+	public function updateSubMenu()
+	{
+		$this->_validationMenu("save");
+		$data = array(
+			'id' => $this->input->post('id', TRUE),
+			'header_id' => $this->input->post('header_id', TRUE),
+			'title' => $this->input->post('title', TRUE),
+			'url' => $this->input->post('url', TRUE),
+			'icon' => $this->input->post('icon', TRUE),
+			'no_order' => $this->input->post('no_order', TRUE),
+			'parent_id' => $this->input->post('parent_id', TRUE),
+			'is_active' => $this->input->post('is_active', TRUE)
+		);
+
+		$doUpdate = $this->MenuModel->updateDataMenu($data);
+
+		//Pengecekan edit data
+		if ($doUpdate == 'failed') {
+			$isErr = 1;
+			$Msg = 'Data gagal ditambahkan!';
+		} else {
+			$isErr = 0;
+			$Msg = 'Data Berhasil Diubah.';
+		}
+
+		$callback = array(
+			'status' => $isErr,
+			'pesan' => $Msg
+		);
+		echo json_encode($callback);
+	}
+
+	public function deleteSubMenu()
+	{
+		$id = $this->input->post('id', TRUE);
+		var_dump($id);
+		die();
+		$doDelete = $this->MenuModel->deleteDataMenu($id);
+
+		//Pengecekan edit data
+		if ($doDelete == 'failed') {
+			$isErr = 1;
+			$Msg = 'Data gagal ditambahkan!';
+		} else {
+			$isErr = 0;
+			$Msg = 'Data Berhasil Dihapus.';
+		}
+
+		$callback = array(
+			'status' => $isErr,
+			'pesan' => $Msg
+		);
+		echo json_encode($callback);
+	}
+
+	// Access Menu
 	public function accessMenu()
 	{
 		$tdata['title'] = "Access Menu";
@@ -295,6 +352,12 @@ class Menu extends CI_Controller
 		);
 		header('Content-Type: application/json');
 		echo json_encode($callback);
+	}
+
+	public function getAccessMenu($id)
+	{
+		$data = $this->MenuModel->getAccessMenuById($id);
+		echo json_encode($data);
 	}
 
 	private function _validationAccess($mode)
