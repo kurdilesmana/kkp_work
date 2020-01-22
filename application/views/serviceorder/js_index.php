@@ -31,15 +31,21 @@
 			$('#form')[0].reset();
 			$('#customer_id').val(null).trigger('change');
 			$('#karyawan_id').val(null).trigger('change');
-			$('.btn').removeClass('btn-danger');
+			$('#sparepart').val(null).trigger('change');
+			$('#btn-submit').removeClass('btn-danger');
 			$('.form-control').removeClass('is-invalid');
 			$('.invalid-feedback').empty();
 			$('#nama').removeAttr('readonly');
 		}
 
+		$('#response-message').hide();
+		$('#sparepart-message').hide();
+
 		$('#tgl_masuk').datepicker({
 			format: 'dd/mm/yyyy',
-			autoclose: true
+			autoclose: true,
+			todayBtn: 'linked',
+			todayHighlight: true
 		});
 
 		$('#customer_id').select2({
@@ -82,7 +88,57 @@
 			}
 		});
 
-		$('#response-message').hide();
+		$('#sparepart').select2({
+			theme: 'classic',
+			placeholder: 'Pilih Sparepart',
+			ajax: {
+				dataType: 'json',
+				url: '<?php echo base_url('sparepart/searchSparepart'); ?>',
+				delay: 250,
+				data: function(params) {
+					return {
+						q: params.term
+					}
+				},
+				processResults: function(data, page) {
+					return {
+						results: data
+					};
+				},
+			}
+		});
+
+		var tblSparepart = $('#dataSparepart').DataTable({
+			'paging': true,
+			'searching': false,
+			'lengthChange': false,
+			'lengthMenu': [
+				[5],
+			],
+			select: true,
+		});
+
+		$('#btn-AddSparepart').click(function() {
+			try {
+				var jumlah = $('#jml_sparepart').val();
+				var sparepart = $('#sparepart').select2('data')['0'];
+				var nama = sparepart['text'];
+				var harga = sparepart['harga'];
+				var total = jumlah * harga;
+				tblSparepart.row.add([
+					nama,
+					jumlah,
+					harga,
+					total
+				]).draw(false);
+			} catch (error) {
+				$('#sparepart-message').html('Sparepart belum dipilih!').fadeIn().delay(3000).fadeOut();
+			}
+		})
+
+		$('#btn-DelSparepart').click(function() {
+			tblSparepart.row('.selected').remove().draw(false);
+		})
 
 		$('#btn-tambah').click(function() {
 			resetForm();
@@ -196,6 +252,7 @@
 
 						$('#formCheckModal').modal('show');
 						$('#formCheckModalLabel').text("Checking Data " + "<?= $title; ?>");
+						$("#cardOrder :input").prop("disabled", true);
 						$('.btn-submit').addClass('btn-primary');
 						$('.btn-submit').text('Check');
 

@@ -48,13 +48,22 @@ class Sparepart extends CI_Controller
 		echo json_encode($callback);
 	}
 
+	public function searchSparepart()
+	{
+		$json = [];
+		$this->db->like('nama', $this->input->get("q"));
+		$query = $this->db->select('id_sparepart as id, nama as text, harga')->limit(5)->get("sparepart");
+		$json = $query->result();
+		echo json_encode($json);
+	}
+
 	private function _validationSparepart($mode)
 	{
 		if ($mode == "save") {
 			$this->form_validation->set_rules('nama', 'Nama', 'required');
 			$this->form_validation->set_rules('jenis', 'Jenis', 'required');
-            $this->form_validation->set_rules('stock', 'Stock', 'required');
-            $this->form_validation->set_rules('harga', 'Harga', 'required');
+			$this->form_validation->set_rules('stock', 'Stock', 'required');
+			$this->form_validation->set_rules('harga', 'Harga', 'required');
 		}
 		if ($this->form_validation->run()) {
 			return true;
@@ -73,7 +82,7 @@ class Sparepart extends CI_Controller
 					$data['error_string'][$i] = "";
 				}
 			}
-			
+
 			echo json_encode($data);
 			exit();
 		}
@@ -86,8 +95,8 @@ class Sparepart extends CI_Controller
 		$data = array(
 			'nama' => $this->input->post('nama', TRUE),
 			'jenis' => $this->input->post('jenis', TRUE),
-            'stock' => $this->input->post('stock', TRUE),
-            'harga' => $this->input->post('harga', TRUE)
+			'stock' => $this->input->post('stock', TRUE),
+			'harga' => $this->input->post('harga', TRUE)
 		);
 
 		$doInsert = $this->SparepartModel->entriDataSparepart($data);
@@ -108,7 +117,7 @@ class Sparepart extends CI_Controller
 		echo json_encode($callback);
 	}
 
-	
+
 	public function getSparepart($id)
 	{
 		$data = $this->SparepartModel->getSparepart($id);
@@ -123,8 +132,8 @@ class Sparepart extends CI_Controller
 			'id_sparepart' => $this->input->post('id_sparepart', TRUE),
 			'nama' => $this->input->post('nama', TRUE),
 			'jenis' => $this->input->post('jenis', TRUE),
-            'stock' => $this->input->post('stock', TRUE),
-            'harga' => $this->input->post('harga', TRUE)
+			'stock' => $this->input->post('stock', TRUE),
+			'harga' => $this->input->post('harga', TRUE)
 		);
 
 		$doUpdate = $this->SparepartModel->updateSparepart($data);
@@ -166,6 +175,3 @@ class Sparepart extends CI_Controller
 		echo json_encode($callback);
 	}
 }
-
-
-

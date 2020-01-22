@@ -7,14 +7,13 @@
 	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 		<h6 class="m-0 font-weight-bold text-primary">Daftar Data <?= $title ?></h6>
 		<div class="dropdown">
+			<a class="btn btn-sm btn-info" href="#" role="button" id="btn-check">Check <i class="fa fa-btn fa-check-circle"></i></a>
 			<a class="btn btn-sm btn-primary dropdown-toggle" href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Action
 			</a>
 			<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
 				<a class="dropdown-item font-weight-bold" href="#" id="btn-tambah">Add <i class="fa fa-btn fa-plus"></i></a>
 				<a class="dropdown-item font-weight-bold" href="#" id="btn-edit">Edit <i class="fa fa-btn fa-edit"></i></a>
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item font-weight-bold" href="#" id="btn-check">Check <i class="fa fa-btn fa-edit"></i></a>
 				<div class="dropdown-divider"></div>
 				<a class="dropdown-item text-danger" href="#" id="btn-hapus">Delete <i class="fa fa-btn fa-trash"></i></a>
 			</div>
@@ -52,7 +51,7 @@
 				<div class="modal-body">
 					<input type="hidden" class="form-control" id="id_barang" name="id_barang">
 					<div class="form-group">
-						<select class="form-control select2-hidden-accessible col-sm" id="customer_id" name="customer_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required></select>
+						<select class="form-control form-control-lg select2-hidden-accessible" id="customer_id" name="customer_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required></select>
 						<div class="invalid-feedback" name="customer_id-message"></div>
 					</div>
 					<div class="form-group">
@@ -106,70 +105,94 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-4">
-							<div class="card">
-								<h6 class="card-header">Service Order</h6>
+							<div id="cardOrder" class="card">
+								<h6 class="card-header text-center">Service Order</h6>
 								<div class="card-body">
 									<input type="hidden" class="form-control" name="id_barang">
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Tanggal Masuk</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Tanggal Masuk</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control form-control-sm" name="tgl_masuk">
 										</div>
-										<input type="text" class="form-control" name="tgl_masuk">
 									</div>
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Customer</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Customer</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control form-control-sm" name="customer">
 										</div>
-										<input type="text" class="form-control" name="customer">
 									</div>
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Jenis</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Jenis</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control form-control-sm" name="jenis">
 										</div>
-										<input type="text" class="form-control" name="jenis">
 									</div>
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Spesifikasi</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Spesifikasi</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control form-control-sm" name="spesifikasi">
 										</div>
-										<input type="text" class="form-control" name="spesifikasi">
 									</div>
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Serial Number</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Serial Number</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control form-control-sm" name="serial_number">
 										</div>
-										<input type="text" class="form-control" name="serial_number">
 									</div>
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Kelengkapan Barang</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Kelengkapan Barang</label>
+										<div class="col-sm-8">
+											<textarea class="form-control form-control-sm" name="kelengkapan_barang" rows="3"></textarea>
 										</div>
-										<textarea class="form-control" name="kelengkapan_barang" rows="3"></textarea>
 									</div>
-									<div class="input-group input-group-sm mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Keluhan</span>
+									<div class="form-group row mb-1">
+										<label for="tgl_masuk" class="col-sm-4 text-xs">Keluhan</label>
+										<div class="col-sm-8">
+											<textarea class="form-control form-control-sm" name="keluhan" rows="3"></textarea>
 										</div>
-										<textarea class="form-control" name="keluhan" rows="3"></textarea>
 									</div>
-									<!-- tambahkan disini -->
 								</div>
 							</div>
 						</div>
 						<div class="col-md-8">
-							<div class="card">
+							<div id="cardCheck" class="card">
 								<h6 class="card-header">Service Check</h6>
 								<div class="card-body">
-									<div class="form-group">
-										<input type="text" class="form-control" id="diagnosis_kerusakan" name="diagnosis_kerusakan" placeholder="Diagnosis Kerusakan">
-										<div class="invalid-feedback" name="diagnosis_kerusakan-message"></div>
+									<div class="form-group row">
+										<div class="col-md-10">
+											<input type="text" class="form-control" id="diagnosis_kerusakan" name="diagnosis_kerusakan" placeholder="Diagnosis Kerusakan">
+											<div class="invalid-feedback" name="diagnosis_kerusakan-message"></div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-8">
+											<select class="form-control" id="sparepart" name="sparepart" style="width: 100%" aria-hidden="true"></select>
+										</div>
+										<div class="col-sm-2">
+											<input type="number" class="form-control form-control-sm" name="jml_sparepart" id="jml_sparepart" value="1">
+										</div>
+										<button class="btn btn-sm btn-info mr-1" href="#" type="button" id="btn-AddSparepart"><i class="fa fa-btn fa-plus-circle"></i></button>
+										<button class="btn btn-sm btn-danger" href="#" type="button" id="btn-DelSparepart"><i class="fa fa-btn fa-trash"></i></button>
+									</div>
+									<div id="sparepart-message" class="alert alert-danger" role="alert"></div>
+									<div class="table-responsive">
+										<table class="table table-bordered" id="dataSparepart" width="100%" cellspacing="0" style="font-size:14px;">
+											<thead>
+												<tr>
+													<th>Sparepart</th>
+													<th>Jumlah</th>
+													<th>Harga</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+										</table>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class=" modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
 					<button type="button" class="btn btn-submit">Simpan</button>
 				</div>
