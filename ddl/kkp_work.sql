@@ -10,13 +10,7 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+SET time_zone = "+07:00";
 
 --
 -- Database: `kkp_work`
@@ -60,13 +54,6 @@ CREATE TABLE `customers` (
   `phone` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`id_customers`, `nama`, `alamat`, `phone`) VALUES
-(3, 'Dede Ichsan', 'garsel', '081236285518');
-
 -- --------------------------------------------------------
 
 --
@@ -78,14 +65,6 @@ CREATE TABLE `karyawan` (
   `nama_karyawan` varchar(50) NOT NULL,
   `bagian_karyawan` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `karyawan`
---
-
-INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `bagian_karyawan`) VALUES
-(1, 'Dede Ichsan', 'Teknisi'),
-(11, 'Ermania ', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -149,7 +128,6 @@ CREATE TABLE `service_item` (
 
 CREATE TABLE `service_order` (
   `id_barang` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
   `jenis` varchar(25) NOT NULL,
   `spesifikasi` varchar(255) NOT NULL,
   `serial_number` varchar(12) NOT NULL,
@@ -158,15 +136,11 @@ CREATE TABLE `service_order` (
   `tgl_masuk` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `service_order`
---
-
-INSERT INTO `service_order` (`id_barang`, `nama`, `jenis`, `spesifikasi`, `serial_number`, `kelengkapan_barang`, `keluhan`, `tgl_masuk`) VALUES
-(3, 'ASTON BRAGA', 'PRINTER epson', 'L110', '6785', 'Kabel USB, Kabel Power', 'Tinta warna tidak keluar', '2019-12-31 17:00:00'),
-(4, 'GRAND TEXTILE INDONESIA', 'PC', 'full set', '5643', 'no', 'Mati total', '2019-12-24 17:00:00'),
-(5, 'PT. KALDU SARI NABATI', 'LAPTOP ASUS', 'I7', '4356', 'Charger', 'keyboard Rusak', '2019-12-23 17:00:00'),
-(7, 'ss', 's', 's', '333', 'f', 'f', '2019-12-17 17:00:00');
+ALTER TABLE service_order
+ADD (
+	customer_id integer,
+	karyawan_id integer
+);
 
 -- --------------------------------------------------------
 
@@ -196,13 +170,6 @@ CREATE TABLE `sparepart` (
   `stock` int(11) NOT NULL,
   `harga` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sparepart`
---
-
-INSERT INTO `sparepart` (`id_sparepart`, `nama`, `jenis`, `stock`, `harga`) VALUES
-(3, 'motherboard', 'gigabyte h110m-ds2', 3, 650000);
 
 -- --------------------------------------------------------
 
@@ -575,7 +542,3 @@ ALTER TABLE `service_penawaran`
   ADD CONSTRAINT `service_penawaran_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
   ADD CONSTRAINT `service_penawaran_ibfk_2` FOREIGN KEY (`id_sparepart`) REFERENCES `sparepart` (`id_sparepart`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
